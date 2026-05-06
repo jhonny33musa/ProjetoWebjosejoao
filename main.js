@@ -46,32 +46,33 @@ async function showGameDetails(gameId) {
 
 // LocalStorage: Favoritos
 function toggleFavorite(game) {
-    // 1. Pega o que já existe ou cria array vazio
+    // 1. Obter a lista atual
     let favorites = JSON.parse(localStorage.getItem('gamerVault_favs')) || [];
     
-    // 2. Verifica se o jogo já lá está pelo ID
-    const index = favorites.findIndex(f => f.id === game.id);
+    // 2. Verificar se o jogo já existe na lista
+    const exists = favorites.find(f => f.id === game.id);
 
-    if (index === -1) {
-        // Se não está, adicionamos (só o que precisamos para o card)
+    if (exists) {
+        // REMOVER: Cria um novo array excluindo o jogo com este ID
+        favorites = favorites.filter(f => f.id !== game.id);
+        alert(`${game.name} removido da tua coleção!`);
+    } else {
+        // ADICIONAR: Coloca o jogo na lista
         favorites.push({
             id: game.id,
             name: game.name,
             background_image: game.background_image,
             metacritic: game.metacritic
         });
-        alert(`${game.name} adicionado aos favoritos!`);
-    } else {
-        // Se já está, removemos
-        favorites.splice(index, 1);
-        alert(`${game.name} removido dos favoritos.`);
+        alert(`${game.name} adicionado à coleção!`);
     }
 
-    // 3. Guarda a lista atualizada
+    // 3. Atualizar o localStorage
     localStorage.setItem('gamerVault_favs', JSON.stringify(favorites));
     
-    // Se estivermos na página de coleção, atualiza a vista na hora
-    if (document.getElementById('view-collection').style.display !== 'none') {
+    // 4. Se o utilizador estiver na página de coleção, recarregar a vista imediatamente
+    const collectionPage = document.getElementById('view-collection');
+    if (collectionPage.style.display !== 'none') {
         loadCollection();
     }
 }
