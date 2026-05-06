@@ -11,6 +11,16 @@ function renderGameCards(games, containerId) {
         container.innerHTML = "<p>Nenhum jogo encontrado.</p>";
         return;
     }
+    const favorites = JSON.parse(localStorage.getItem('gamerVault_favs')) || [];
+    const isFav = favorites.some(f => f.id === game.id);
+
+    const favBtn = document.createElement('button');
+      favBtn.className = 'fav-btn';
+      favBtn.innerHTML = '❤';
+     // Se já for favorito, podemos dar uma classe CSS diferente ou mudar a cor
+         if (isFav) {
+          favBtn.style.color = '#ff4b2b'; // Vermelho se já estiver na coleção
+        }
 
     games.forEach(game => {
         // 1. Criar Contentor do Cartão
