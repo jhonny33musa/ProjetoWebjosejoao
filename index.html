@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>GamerVault | A tua Biblioteca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">GamerVault</div>
+        <input type="text" id="searchInput" placeholder="Pesquisar jogos...">
+        <div class="nav-links">
+            <button onclick="showView('home')">Home</button>
+            <button onclick="showView('top')">Top 2024</button>
+            <button onclick="showView('upcoming')">Próximos</button>
+            <button onclick="showView('collection')">A Minha Coleção</button>
+        </div>
+    </nav>
+
+    <main id="app">
+        <!-- Filtros Dinâmicos -->
+        <div id="filters">
+            <select id="platformFilter">
+                <option value="">Todas as Plataformas</option>
+                <option value="4">PC</option>
+                <option value="187">PlayStation 5</option>
+                <option value="1">Xbox One</option>
+            </select>
+            <select id="sortOrder">
+                <option value="-metacritic">Melhor Rating</option>
+                <option value="-released">Mais Recentes</option>
+            </select>
+        </div>
+
+        <!-- As 5 Vistas/Contentores -->
+        <section id="view-home" class="view"></section>
+        <section id="view-top" class="view" style="display:none"></section>
+        <section id="view-upcoming" class="view" style="display:none"></section>
+        <section id="view-details" class="view" style="display:none"></section>
+        <section id="view-collection" class="view" style="display:none"></section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/dom.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
