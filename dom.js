@@ -7,64 +7,38 @@ function renderGameCards(games, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = ""; 
 
-    if (games.length === 0) {
-        container.innerHTML = "<p>Nenhum jogo encontrado.</p>";
-        return;
-    }
-    const favorites = JSON.parse(localStorage.getItem('gamerVault_favs')) || [];
-    const isFav = favorites.some(f => f.id === game.id);
+    games.forEach(game => { // <-- O 'game' é definido aqui para cada iteração
+        
+        // 1. Verificar se ESTE jogo específico é favorito (Lógica corrigida)
+        const favorites = JSON.parse(localStorage.getItem('gamerVault_favs')) || [];
+        const isFav = favorites.some(f => f.id === game.id);
 
-    const favBtn = document.createElement('button');
-      favBtn.className = 'fav-btn';
-      favBtn.innerHTML = '❤';
-     // Se já for favorito, podemos dar uma classe CSS diferente ou mudar a cor
-         if (isFav) {
-          favBtn.style.color = '#ff4b2b'; // Vermelho se já estiver na coleção
-        }
-
-    games.forEach(game => {
-        // 1. Criar Contentor do Cartão
         const card = document.createElement('div');
         card.className = 'game-card';
 
-        // 2. Imagem
-        const img = document.createElement('img');
-        img.src = game.background_image || 'https://via.placeholder.com/400x200?text=No+Image';
-        img.alt = game.name;
+        // ... código da imagem, título, etc (mantém o que tens) ...
 
-        // 3. Título
-        const title = document.createElement('h3');
-        title.textContent = game.name;
-
-        // 4. Rating (Metacritic)
-        const rating = document.createElement('span');
-        rating.textContent = `⭐ Metascore: ${game.metacritic || 'N/A'}`;
-
-        // 5. Botão de Favorito (localStorage)
+        // 2. Criar o botão de favorito com a cor correta
         const favBtn = document.createElement('button');
         favBtn.className = 'fav-btn';
         favBtn.innerHTML = '❤';
+        
+        // Se for favorito, pintamos de vermelho, se não, fica branco/cinza
+        favBtn.style.color = isFav ? '#ff4b2b' : '#ffffff';
+
         favBtn.onclick = (e) => {
             e.stopPropagation();
-            toggleFavorite(game);
+            toggleFavorite(game); // Esta função está no main.js
+            
+            // Truque visual: muda a cor mal clicas para feedback imediato
+            favBtn.style.color = favBtn.style.color === 'rgb(255, 75, 43)' ? '#ffffff' : '#ff4b2b';
         };
 
-        // 6. Botão Detalhes
-        const detailBtn = document.createElement('button');
-        detailBtn.textContent = "Ver Detalhes";
-        detailBtn.onclick = () => showGameDetails(game.id);
-
-        // Montagem (Append)
-        card.appendChild(img);
+        // ... resto dos appends ...
         card.appendChild(favBtn);
-        card.appendChild(title);
-        card.appendChild(rating);
-        card.appendChild(detailBtn);
-        
         container.appendChild(card);
     });
 }
-
 // Renderiza a vista detalhada de um jogo
 function renderDetailedView(game) {
     const container = document.getElementById('view-details');
