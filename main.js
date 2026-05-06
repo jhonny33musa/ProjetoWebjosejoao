@@ -1,73 +1,61 @@
 /**
- * Lógica Principal e Eventos
+ * Lógica Principal e Controlo de Vistas
  */
 
-// Navegação entre as 5 vistas
+// 1. Função de Navegação (A que estava a dar erro de "not defined")
 function showView(viewId) {
-    // Esconder todas
-    document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
-    // Mostrar a pretendida
-    const target = document.getElementById(`view-${viewId}`);
-    target.style.display = (viewId === 'details') ? 'block' : 'grid';
+    console.log("A mudar para a vista:", viewId); // Debug para veres na consola
+    
+    // Esconder todas as secções
+    const views = document.querySelectorAll('.view');
+    views.forEach(v => v.style.display = 'none');
 
-    // Carregar dados específicos conforme a vista
+    // Mostrar a secção pretendida
+    const targetView = document.getElementById(`view-${viewId}`);
+    if (targetView) {
+        // Detalhes usa 'block', as outras usam 'grid' para os cartões
+        targetView.style.display = (viewId === 'details') ? 'block' : 'grid';
+    }
+
+    // Executar a função de carregamento correspondente
     if (viewId === 'home') loadGames('games', 'view-home');
     if (viewId === 'top') loadGames('games', 'view-top', '&ordering=-metacritic&dates=2024-01-01,2024-12-31');
     if (viewId === 'upcoming') loadGames('games', 'view-upcoming', '&ordering=-released&dates=2025-01-01,2025-12-31');
     if (viewId === 'collection') loadCollection();
 }
 
-// Função genérica assíncrona para carregar jogos
+// 2. Carregar jogos da API de forma assíncrona
 async function loadGames(endpoint, containerId, extraParams = "") {
     const platform = document.getElementById('platformFilter').value;
     const sort = document.getElementById('sortOrder').value;
     
+    // Construir os parâmetros (Filtros + Ordenação)
     let params = `${extraParams}&platforms=${platform}&ordering=${sort}`;
-    const games = await fetchGames(endpoint, params);
-    renderGameCards(games, containerId);
+    
+    const games = await fetchGames(endpoint, params); // Chama a função do api.js
+    renderGameCards(games, containerId); // Chama a função do dom.js
 }
 
-// Pesquisa (Evento Input com Debounce simples)
-document.getElementById('searchInput').addEventListener('input', async (e) => {
-    const term = e.target.value;
-    if (term.length > 2) {
-        const results = await fetchGames('games', `&search=${term}`);
-        showView('home'); // Redireciona para a home para ver resultados
-        renderGameCards(results, 'view-home');
-    }
-});
-
-// Gestão de Detalhes (Operação Assíncrona Real)
-async function showGameDetails(gameId) {
-    showView('details');
-    const game = await fetchGames(`games/${gameId}`);
-    renderDetailedView(game);
-}
-
-// LocalStorage: Favoritos
-function toggleFavorite(game) {
-    let favorites = JSON.parse(localStorage.getItem('gamerVault_favs')) || [];
-    const exists = favorites.find(f => f.id === game.id);
-
-    if (exists) {
-        favorites = favorites.filter(f => f.id !== game.id);
-    } else {
-        favorites.push({id: game.id, name: game.name, background_image: game.background_image, metacritic: game.metacritic});
-    }
-
-    localStorage.setItem('gamerVault_favs', JSON.stringify(favorites));
-}
-
+// 3. Função para a vista de Favoritos (Coleção)
 function loadCollection() {
     const favorites = JSON.parse(localStorage.getItem('gamerVault_favs')) || [];
     renderGameCards(favorites, 'view-collection');
 }
 
-// Filtros (Eventos Change)
-document.getElementById('platformFilter').addEventListener('change', () => showView('home'));
-document.getElementById('sortOrder').addEventListener('change', () => showView('home'));
+// 4. Lógica de Pesquisa com evento 'input'
+document.getElementById('searchInput').addEventListener('input', async (e) => {
+    const term = e.target.value;
+    if (term.length > 2) {
+        const results = await fetchGames('games', `&search=${term}`);
+        // Mostra os resultados na view-home
+        document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
+        document.getElementById('view-home').style.display = 'grid';
+        renderGameCards(results, 'view-home');
+    }
+});
 
-// Inicialização ao carregar a página
+// 5. Inicialização: O que acontece quando abres o site
 window.onload = () => {
-    showView('home');
+    console.log("Aplicação iniciada com sucesso!");
+    showView('home'); // Carrega a página inicial por defeito
 };
