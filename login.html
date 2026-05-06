@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>GamerVault - Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <h2>Bem-vindo ao GamerVault</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Utilizador" required maxlength="15">
+            <input type="password" id="password" placeholder="Palavra-passe" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p id="loginError" style="color: #ff4b2b; margin-top: 10px; display: none;">Dados inválidos!</p>
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>

@@ -225,3 +225,55 @@ select {
     margin-top: 30px;
     text-align: left;
 }
+/* Roda da Conta */
+.user-profile {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+    cursor: pointer;
+    border: 2px solid var(--accent);
+    transition: 0.3s;
+}
+
+.user-profile:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--accent);
+}
+
+#userInitial {
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+/* Página de Login */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    background: var(--secondary);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.login-container input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background: var(--bg-dark);
+    border: 1px solid var(--primary);
+    color: white;
+    border-radius: 5px;
+}

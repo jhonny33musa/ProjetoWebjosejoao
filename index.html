@@ -7,15 +7,18 @@
 </head>
 <body>
     <nav>
-        <div class="logo">GamerVault</div>
-        <input type="text" id="searchInput" placeholder="Pesquisar jogos...">
-        <div class="nav-links">
-            <button onclick="showView('home')">Home</button>
-            <button onclick="showView('top')">Top 2024</button>
-            <button onclick="showView('upcoming')">Próximos</button>
-            <button onclick="showView('collection')">A Minha Coleção</button>
+    <div class="logo">GamerVault</div>
+    <input type="text" id="searchInput" placeholder="Pesquisar jogos...">
+    <div class="nav-links">
+        <button onclick="showView('home')">Home</button>
+        <button onclick="showView('top')">Top 2024</button>
+        <button onclick="showView('collection')">Coleção</button>
+        <!-- Roda da Conta / Avatar -->
+        <div class="user-profile" id="userAvatar" onclick="logout()">
+            <span id="userInitial">A</span>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <main id="app">
         <!-- Filtros Dinâmicos -->

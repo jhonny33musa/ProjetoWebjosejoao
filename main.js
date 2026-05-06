@@ -1,7 +1,24 @@
 /**
  * Lógica Principal e Eventos
  */
+// Verifica se o utilizador está logado logo ao carregar
+if (sessionStorage.getItem('isLogged') !== 'true') {
+    window.location.href = 'login.html';
+}
 
+// Atualiza a inicial na roda da conta
+window.addEventListener('DOMContentLoaded', () => {
+    const name = sessionStorage.getItem('userName') || "U";
+    document.getElementById('userInitial').textContent = name.charAt(0);
+});
+
+// Função de Log Out
+function logout() {
+    if (confirm("Desejas encerrar a sessão?")) {
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+    }
+}
 // Navegação entre as 5 vistas
 function showView(viewId) {
     // Esconder todas
