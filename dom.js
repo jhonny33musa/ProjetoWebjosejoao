@@ -58,16 +58,31 @@ function renderGameCards(games, containerId) {
 // Renderiza a vista detalhada de um jogo
 function renderDetailedView(game) {
     const container = document.getElementById('view-details');
+    
+    // Criamos uma estrutura mais limpa e com classes para o CSS
     container.innerHTML = `
-        <div class="detail-content">
-            <button onclick="showView('home')">← Voltar</button>
-            <img src="${game.background_image_additional || game.background_image}" style="width:100%; border-radius:10px;">
-            <h1>${game.name}</h1>
-            <p><strong>Lançamento:</strong> ${game.released}</p>
-            <p>${game.description_raw || 'Sem descrição disponível.'}</p>
-            <div class="platforms">
-                <strong>Plataformas:</strong> 
-                ${game.platforms.map(p => p.platform.name).join(', ')}
+        <div class="detail-container">
+            <button class="back-btn" onclick="showView('home')">← Voltar à Biblioteca</button>
+            
+            <div class="detail-header">
+                <img src="${game.background_image}" alt="${game.name}" class="detail-banner">
+                <div class="detail-title-box">
+                    <h1>${game.name}</h1>
+                    <span class="metascore">Metascore: ${game.metacritic || 'N/A'}</span>
+                </div>
+            </div>
+
+            <div class="detail-info">
+                <div class="description">
+                    <h3>Sobre o Jogo</h3>
+                    <p>${game.description_raw || "Sem descrição disponível."}</p>
+                </div>
+                
+                <div class="meta-data">
+                    <p><strong>📅 Lançamento:</strong> ${game.released}</p>
+                    <p><strong>🎮 Plataformas:</strong> ${game.platforms.map(p => p.platform.name).join(', ')}</p>
+                    <p><strong>🏷️ Géneros:</strong> ${game.genres.map(g => g.name).join(', ')}</p>
+                </div>
             </div>
         </div>
     `;
